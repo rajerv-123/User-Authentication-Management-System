@@ -5,16 +5,20 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
-app.use(express.json()); // Middleware to parse JSON
+app.use(express.json());
 
-// Connect to MongoDB
+// MongoDB Connection
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => console.log("❌ MongoDB Connection Error:", err));
 
-// Import routes
-const userRoutes = require("./routes/userRoutes");
-app.use("/users", userRoutes); // Correct usage
+// Routes
+const authRoutes = require("./routes/authRoutes");
+app.use("/", authRoutes); 
 
+// Listen to the server
 app.listen(5000, () => console.log("🚀 Server started at port 5000"));
